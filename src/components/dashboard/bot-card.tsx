@@ -3,11 +3,23 @@ import type { Bot } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { Play, Square, Trash2, Bot as BotIcon, Loader2, CheckCircle, XCircle, Pencil } from 'lucide-react';
+import { Play, Square, Trash2, Bot as BotIcon, Loader2, CheckCircle, XCircle, Pencil, FileText, Webhook } from 'lucide-react';
 import { startBot, stopBot, deleteBot } from '@/lib/actions/bots';
 import { useTransition } from 'react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
 
 export function BotCard({ bot }: { bot: Bot }) {
     const [isPending, startTransition] = useTransition();
@@ -85,10 +97,38 @@ export function BotCard({ bot }: { bot: Bot }) {
                             <span className="sr-only">Edit</span>
                         </Link>
                     </Button>
-                    <Button variant="destructive" size="icon" title="Delete" onClick={() => handleAction(deleteBot)}>
-                        <Trash2 className="h-4 w-4" />
-                        <span className="sr-only">Delete</span>
+                     <Button variant="outline" size="icon" title="View Logs (Not implemented)" disabled>
+                        <FileText className="h-4 w-4" />
+                        <span className="sr-only">View Logs</span>
                     </Button>
+                     <Button variant="outline" size="icon" title="Check API Status (Not implemented)" disabled>
+                        <Webhook className="h-4 w-4" />
+                        <span className="sr-only">Check API Status</span>
+                    </Button>
+
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="destructive" size="icon" title="Delete">
+                            <Trash2 className="h-4 w-4" />
+                            <span className="sr-only">Delete</span>
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete your bot
+                            and remove its data from our servers.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => handleAction(deleteBot)}>
+                            Continue
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                     </>
                 )}
             </CardFooter>
