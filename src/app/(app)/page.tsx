@@ -64,12 +64,6 @@ export default function DashboardPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold font-headline">Dashboard</h1>
-        <Button asChild>
-          <Link href="/bots/new">
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Deploy Bot
-          </Link>
-        </Button>
       </div>
 
       <Suspense fallback={<Skeleton className="h-24 w-full" />}>
