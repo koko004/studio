@@ -4,17 +4,18 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { getBotsWithStatus } from '@/lib/actions/bots';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Bot, CheckCircle, XCircle, List } from 'lucide-react';
-import { DockerStatus } from '@/components/dashboard/docker-status';
+import { getDockerInfo } from '@/lib/actions/docker';
 
 
 async function DashboardCounters() {
   const bots = await getBotsWithStatus();
+  const dockerInfo = await getDockerInfo();
   const activeBots = bots.filter(b => b.status === 'active').length;
   const inactiveBots = bots.filter(b => b.status === 'inactive').length;
   const totalBots = bots.length;
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Bots</CardTitle>
@@ -42,6 +43,18 @@ async function DashboardCounters() {
           <div className="text-2xl font-bold">{inactiveBots}</div>
         </CardContent>
       </Card>
+       <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Running Containers</CardTitle>
+          <Bot className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">{dockerInfo.ContainersRunning}/{dockerInfo.Containers}</div>
+           <p className="text-xs text-muted-foreground">
+            From Docker
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 }
@@ -54,15 +67,9 @@ export default function DashboardPage() {
         <h1 className="text-3xl font-bold font-headline">Dashboard</h1>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-         <Suspense fallback={<Skeleton className="h-48 w-full" />}>
-          <DockerStatus />
-        </Suspense>
-        <Suspense fallback={<Skeleton className="h-48 w-full" />}>
-          <DashboardCounters />
-        </Suspense>
-      </div>
-
+      <Suspense fallback={<Skeleton className="h-24 w-full" />}>
+        <DashboardCounters />
+      </Suspense>
 
       <div>
         <h2 className="text-2xl font-semibold mb-4 font-headline">Bots</h2>
