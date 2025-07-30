@@ -1,0 +1,16 @@
+[
+  {
+    "id": "b0a7e3a3-7b4d-4d7a-8b1e-6f9c2d1b9e3a",
+    "name": "Metrics Collector Bot",
+    "token": "dummy_token_1",
+    "composeContent": "version: '3.8'\nservices:\n  bot:\n    image: 'telegram-bot:latest'\n    environment:\n      - BOT_TOKEN=${BOT_TOKEN}",
+    "status": "active"
+  },
+  {
+    "id": "c1b8f4b4-8c5e-5e8b-9c2f-7g0d3e2c0f4b",
+    "name": "Notification Service Bot",
+    "token": "dummy_token_2",
+    "composeContent": "version: '3.8'\nservices:\n  bot:\n    image: 'another-bot:1.2'\n    restart: always\n    environment:\n      - BOT_TOKEN=${BOT_TOKEN}",
+    "status": "inactive"
+  }
+]
