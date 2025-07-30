@@ -141,3 +141,21 @@ export async function deleteBot(botId: string) {
     revalidatePath('/');
   }
 }
+
+export async function getBotLogs(botId: string): Promise<string> {
+    const bot = await getBotById(botId);
+    if (!bot) {
+        return "Bot not found.";
+    }
+    // MOCK: In a real app, you would run `docker-compose logs` for the bot's service.
+    const now = new Date().toISOString();
+    return `
+[${now}] INFO: Starting bot ${bot.name}...
+[${now}] INFO: Bot connected to Telegram API.
+[${now}] DEBUG: Polling for new messages.
+[${new Date(Date.now() + 2000).toISOString()}] INFO: Received message: /start
+[${new Date(Date.now() + 2100).toISOString()}] INFO: Responding to /start command.
+[${new Date(Date.now() + 5000).toISOString()}] DEBUG: Polling for new messages.
+${bot.status === 'inactive' ? `[${new Date(Date.now() + 6000).toISOString()}] INFO: Bot is shutting down.` : ''}
+    `.trim();
+}

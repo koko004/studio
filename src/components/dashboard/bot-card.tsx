@@ -97,9 +97,11 @@ export function BotCard({ bot }: { bot: Bot }) {
                             <span className="sr-only">Edit</span>
                         </Link>
                     </Button>
-                     <Button variant="outline" size="icon" title="View Logs (Not implemented)" disabled>
-                        <FileText className="h-4 w-4" />
-                        <span className="sr-only">View Logs</span>
+                     <Button asChild variant="outline" size="icon" title="View Logs">
+                       <Link href={`/bots/${bot.id}/logs`}>
+                            <FileText className="h-4 w-4" />
+                            <span className="sr-only">View Logs</span>
+                        </Link>
                     </Button>
                      <Button variant="outline" size="icon" title="Check API Status (Not implemented)" disabled>
                         <Webhook className="h-4 w-4" />
