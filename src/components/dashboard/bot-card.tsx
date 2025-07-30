@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Play, Square, Trash2, Bot as BotIcon, Loader2, CheckCircle, XCircle, Pencil, FileText, Webhook } from 'lucide-react';
-import { startBot, stopBot, deleteBot } from '@/lib/actions/bots';
+import { startBot, stopBot, deleteBot, checkBotApiStatus } from '@/lib/actions/bots';
 import { useTransition } from 'react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
@@ -19,16 +19,29 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { useToast } from '@/hooks/use-toast';
 
 
 export function BotCard({ bot }: { bot: Bot }) {
     const [isPending, startTransition] = useTransition();
+    const { toast } = useToast();
 
     const handleAction = (action: (botId: string) => Promise<void>) => {
         startTransition(() => {
             action(bot.id);
         });
     };
+
+    const handleApiCheck = () => {
+        startTransition(async () => {
+            const result = await checkBotApiStatus(bot.id);
+            toast({
+                variant: result.success ? 'default' : 'destructive',
+                title: `API Status: ${bot.name}`,
+                description: result.message,
+            })
+        });
+    }
 
     const statusConfig = {
         active: {
@@ -103,7 +116,7 @@ export function BotCard({ bot }: { bot: Bot }) {
                             <span className="sr-only">View Logs</span>
                         </Link>
                     </Button>
-                     <Button variant="outline" size="icon" title="Check API Status (Not implemented)" disabled>
+                     <Button variant="outline" size="icon" title="Check API Status" onClick={handleApiCheck}>
                         <Webhook className="h-4 w-4" />
                         <span className="sr-only">Check API Status</span>
                     </Button>

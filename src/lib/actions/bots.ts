@@ -159,3 +159,25 @@ export async function getBotLogs(botId: string): Promise<string> {
 ${bot.status === 'inactive' ? `[${new Date(Date.now() + 6000).toISOString()}] INFO: Bot is shutting down.` : ''}
     `.trim();
 }
+
+
+export async function checkBotApiStatus(botId: string): Promise<{ success: boolean; message: string; }> {
+    const bot = await getBotById(botId);
+    if (!bot) {
+        return { success: false, message: "Bot not found." };
+    }
+
+    // MOCK: In a real app, this would make an HTTP request to a health check endpoint on the bot.
+    // We'll simulate a response based on the bot's container status.
+    if (bot.status !== 'active') {
+        return { success: false, message: `Bot "${bot.name}" is not active.` };
+    }
+    
+    // Simulate a random API failure for active bots
+    const isSuccess = Math.random() > 0.2; // 80% chance of success
+    if (isSuccess) {
+        return { success: true, message: `API for "${bot.name}" is responsive (200 OK).` };
+    } else {
+        return { success: false, message: `API for "${bot.name}" is unresponsive (503 Service Unavailable).` };
+    }
+}
