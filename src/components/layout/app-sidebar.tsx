@@ -1,5 +1,5 @@
 'use client';
-import { Bot, Home, LogOut, PlusCircle, Settings, Tooltip } from 'lucide-react';
+import { Bot, Home, LogOut, PlusCircle, Settings } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { logout } from '@/lib/actions/auth';
-import { TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const navItems = [
   { href: '/', icon: Home, label: 'Dashboard' },
