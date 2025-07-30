@@ -1,6 +1,6 @@
 'use client';
 import { useFormStatus } from 'react-dom';
-import { useActionState, useEffect } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import { login } from '@/lib/actions/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,6 +22,11 @@ function SubmitButton() {
 export function LoginForm() {
   const [state, formAction] = useActionState(login, { error: undefined });
   const { toast } = useToast();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     if (state?.error) {
@@ -32,6 +37,11 @@ export function LoginForm() {
       });
     }
   }, [state, toast]);
+
+  if (!isClient) {
+    // Render nothing on the server to avoid mismatch
+    return null;
+  }
 
   return (
     <Card className="w-full max-w-sm">
