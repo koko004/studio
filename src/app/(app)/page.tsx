@@ -1,6 +1,5 @@
 import { Suspense } from 'react';
 import { BotList } from '@/components/dashboard/bot-list';
-import { DockerStatus } from '@/components/dashboard/docker-status';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
