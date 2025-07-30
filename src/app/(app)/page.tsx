@@ -1,12 +1,10 @@
 import { Suspense } from 'react';
 import { BotList } from '@/components/dashboard/bot-list';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { PlusCircle } from 'lucide-react';
 import { getBotsWithStatus } from '@/lib/actions/bots';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Bot, CheckCircle, XCircle, List } from 'lucide-react';
+import { DockerStatus } from '@/components/dashboard/docker-status';
 
 
 async function DashboardCounters() {
@@ -16,7 +14,7 @@ async function DashboardCounters() {
   const totalBots = bots.length;
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Bots</CardTitle>
@@ -44,16 +42,6 @@ async function DashboardCounters() {
           <div className="text-2xl font-bold">{inactiveBots}</div>
         </CardContent>
       </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Running Containers</CardTitle>
-          <Bot className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">8</div>
-          <p className="text-xs text-muted-foreground">de 12 contenedores totales</p>
-        </CardContent>
-      </Card>
     </div>
   );
 }
@@ -66,9 +54,15 @@ export default function DashboardPage() {
         <h1 className="text-3xl font-bold font-headline">Dashboard</h1>
       </div>
 
-      <Suspense fallback={<Skeleton className="h-24 w-full" />}>
-        <DashboardCounters />
-      </Suspense>
+      <div className="grid gap-6 lg:grid-cols-2">
+         <Suspense fallback={<Skeleton className="h-48 w-full" />}>
+          <DockerStatus />
+        </Suspense>
+        <Suspense fallback={<Skeleton className="h-48 w-full" />}>
+          <DashboardCounters />
+        </Suspense>
+      </div>
+
 
       <div>
         <h2 className="text-2xl font-semibold mb-4 font-headline">Bots</h2>
@@ -82,7 +76,7 @@ export default function DashboardPage() {
 
 function BotListSkeleton() {
     return (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <Skeleton className="h-48 w-full" />
             <Skeleton className="h-48 w-full" />
             <Skeleton className="h-48 w-full" />

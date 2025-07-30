@@ -16,6 +16,7 @@ export async function getDockerInfo() {
       Images: 34,
       OperatingSystem: 'Docker Desktop',
       Architecture: 'aarch64',
+      Driver: 'overlay2'
     };
   } catch (error) {
     console.error('MOCK: Failed to get Docker info:', error);

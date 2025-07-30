@@ -1,7 +1,7 @@
 import { getDockerInfo } from '@/lib/actions/docker';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Server, Image as ImageIcon, Container, CheckCircle2 } from 'lucide-react';
+import { Server, Image as ImageIcon, Container, CheckCircle2, HardDrive } from 'lucide-react';
 
 export async function DockerStatus() {
   const info = await getDockerInfo();
@@ -9,21 +9,21 @@ export async function DockerStatus() {
   const isOnline = !info.error && info.ServerVersion;
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <div className='space-y-1'>
+    <Card className="h-full flex flex-col">
+      <CardHeader>
+         <div className="flex items-center justify-between">
             <CardTitle className="text-lg font-medium font-headline">Docker Status</CardTitle>
-            <CardDescription>{info.OperatingSystem} ({info.Architecture})</CardDescription>
-        </div>
-        <Badge variant={isOnline ? 'default' : 'destructive'} className="gap-1.5 pl-2 pr-2.5 py-1 text-sm">
-            <CheckCircle2 className="h-4 w-4"/>
-            {isOnline ? 'Online' : 'Offline'}
-        </Badge>
+            <Badge variant={isOnline ? 'default' : 'destructive'} className="gap-1.5 pl-2 pr-2.5 py-1 text-xs">
+                {isOnline ? <CheckCircle2 className="h-3 w-3"/> : null}
+                {isOnline ? 'Online' : 'Offline'}
+            </Badge>
+         </div>
+         <CardDescription className="pt-1">{info.OperatingSystem} ({info.Architecture})</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-grow flex flex-col justify-center">
         {isOnline ? (
             <>
-            <div className="text-3xl font-bold text-primary mt-2">
+            <div className="text-3xl font-bold text-primary">
                 v{info.ServerVersion}
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4 text-sm text-muted-foreground pt-4 border-t">
@@ -35,10 +35,14 @@ export async function DockerStatus() {
                     <ImageIcon className="h-5 w-5" />
                     <span>{info.Images} Images</span>
                 </div>
+                 <div className="flex items-center gap-2">
+                    <HardDrive className="h-5 w-5" />
+                    <span>{info.Driver}</span>
+                </div>
             </div>
             </>
         ) : (
-            <div className="mt-4 text-destructive">
+            <div className="text-destructive text-center py-4">
                 <p>{info.error}</p>
             </div>
         )}
