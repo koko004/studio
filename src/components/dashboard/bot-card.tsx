@@ -3,10 +3,11 @@ import type { Bot } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { Play, Square, Trash2, Bot as BotIcon, Loader2, CheckCircle, XCircle } from 'lucide-react';
+import { Play, Square, Trash2, Bot as BotIcon, Loader2, CheckCircle, XCircle, Pencil } from 'lucide-react';
 import { startBot, stopBot, deleteBot } from '@/lib/actions/bots';
 import { useTransition } from 'react';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 export function BotCard({ bot }: { bot: Bot }) {
     const [isPending, startTransition] = useTransition();
@@ -67,18 +68,24 @@ export function BotCard({ bot }: { bot: Bot }) {
                 ) : (
                     <>
                     {bot.status !== 'active' && (
-                        <Button variant="outline" size="icon" onClick={() => handleAction(startBot)}>
+                        <Button variant="outline" size="icon" title="Start" onClick={() => handleAction(startBot)}>
                             <Play className="h-4 w-4" />
                             <span className="sr-only">Start</span>
                         </Button>
                     )}
                     {bot.status === 'active' && (
-                         <Button variant="outline" size="icon" onClick={() => handleAction(stopBot)}>
+                         <Button variant="outline" size="icon" title="Stop" onClick={() => handleAction(stopBot)}>
                             <Square className="h-4 w-4" />
                             <span className="sr-only">Stop</span>
                         </Button>
                     )}
-                    <Button variant="destructive" size="icon" onClick={() => handleAction(deleteBot)}>
+                     <Button asChild variant="outline" size="icon" title="Edit">
+                        <Link href={`/bots/${bot.id}/edit`}>
+                            <Pencil className="h-4 w-4" />
+                            <span className="sr-only">Edit</span>
+                        </Link>
+                    </Button>
+                    <Button variant="destructive" size="icon" title="Delete" onClick={() => handleAction(deleteBot)}>
                         <Trash2 className="h-4 w-4" />
                         <span className="sr-only">Delete</span>
                     </Button>

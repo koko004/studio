@@ -32,6 +32,11 @@ export async function getBotsWithStatus(): Promise<Bot[]> {
   return await readBots();
 }
 
+export async function getBotById(id: string): Promise<Bot | undefined> {
+    const bots = await readBots();
+    return bots.find((bot) => bot.id === id);
+}
+
 export async function deployBot(prevState: { error: string | undefined }, formData: FormData) {
   const name = formData.get('name') as string;
   const token = formData.get('token') as string;
@@ -62,6 +67,43 @@ export async function deployBot(prevState: { error: string | undefined }, formDa
 
   revalidatePath('/');
   redirect('/');
+}
+
+export async function updateBot(prevState: { error: string | undefined }, formData: FormData) {
+    const id = formData.get('id') as string;
+    const name = formData.get('name') as string;
+    const token = formData.get('token') as string;
+    const composeContent = formData.get('composeContent') as string;
+
+    if (!id || !name || !composeContent) {
+        return { error: 'ID, Name and Compose Content are required.' };
+    }
+
+    const bots = await readBots();
+    const botIndex = bots.findIndex((b) => b.id === id);
+
+    if (botIndex === -1) {
+        return { error: 'Bot not found.' };
+    }
+
+    // Preserve original token if not provided
+    bots[botIndex] = {
+        ...bots[botIndex],
+        name,
+        composeContent,
+        token: token || bots[botIndex].token,
+    };
+
+    // MOCK: In a real app, you would:
+    // 1. Update the docker-compose.yml and .env files
+    // 2. Run `docker-compose up -d --force-recreate` to apply changes
+    console.log(`MOCK: Updating bot "${name}"...`);
+
+    await writeBots(bots);
+
+    revalidatePath('/');
+    revalidatePath(`/bots/${id}/edit`);
+    redirect('/');
 }
 
 export async function startBot(botId: string) {
