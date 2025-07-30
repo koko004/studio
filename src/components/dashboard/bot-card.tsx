@@ -3,9 +3,10 @@ import type { Bot } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { Play, Square, Trash2, Bot as BotIcon, Loader2 } from 'lucide-react';
+import { Play, Square, Trash2, Bot as BotIcon, Loader2, CheckCircle, XCircle } from 'lucide-react';
 import { startBot, stopBot, deleteBot } from '@/lib/actions/bots';
 import { useTransition } from 'react';
+import { cn } from '@/lib/utils';
 
 export function BotCard({ bot }: { bot: Bot }) {
     const [isPending, startTransition] = useTransition();
@@ -16,6 +17,26 @@ export function BotCard({ bot }: { bot: Bot }) {
         });
     };
 
+    const statusConfig = {
+        active: {
+            label: 'Active',
+            className: 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300',
+            icon: <CheckCircle className="h-3 w-3" />,
+        },
+        inactive: {
+            label: 'Inactive',
+            className: 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300',
+            icon: <XCircle className="h-3 w-3" />,
+        },
+        unknown: {
+            label: 'Unknown',
+            className: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
+            icon: <BotIcon className="h-3 w-3" />,
+        }
+    };
+
+    const currentStatus = statusConfig[bot.status] || statusConfig.unknown;
+
     return (
         <Card className="flex flex-col transition-all hover:shadow-lg hover:shadow-primary/10">
             <CardHeader>
@@ -25,16 +46,17 @@ export function BotCard({ bot }: { bot: Bot }) {
                             <BotIcon className="h-5 w-5" />
                             {bot.name}
                         </CardTitle>
-                        <CardDescription>Bot ID: {bot.id.substring(0, 8)}</CardDescription>
+                        <CardDescription>ID: {bot.id.substring(0, 8)}</CardDescription>
                     </div>
-                    <Badge variant={bot.status === 'active' ? 'default' : 'secondary'} className="capitalize">
-                        {bot.status}
+                    <Badge variant="outline" className={cn("capitalize gap-1.5 pl-2 pr-2.5 py-1 text-xs border-none", currentStatus.className)}>
+                        {currentStatus.icon}
+                        {currentStatus.label}
                     </Badge>
                 </div>
             </CardHeader>
             <CardContent className="flex-grow">
                 <div className="text-sm text-muted-foreground">
-                    <p className="font-mono bg-muted p-2 rounded-md text-xs truncate">{bot.composeContent.split('\n')[1] || 'No service info'}</p>
+                    <p className="font-mono bg-muted p-2 rounded-md text-xs truncate">{bot.composeContent.split('\n')[2] || 'No service info'}</p>
                 </div>
             </CardContent>
             <CardFooter className="flex justify-end gap-2">

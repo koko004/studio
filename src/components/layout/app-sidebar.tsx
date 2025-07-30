@@ -24,27 +24,27 @@ export function AppSidebar() {
   return (
     <Sidebar className="hidden border-r bg-background sm:flex">
       <SidebarContent className="flex flex-col">
-        <SidebarHeader>
+        <SidebarHeader className="group-data-[collapsed=true]:justify-center group-data-[collapsed=true]:px-2">
           <Link href="/" className="flex items-center gap-2 font-semibold">
             <Bot className="h-6 w-6 text-primary" />
-            <span className="">Bot Manager</span>
+            <span className="group-data-[collapsed=true]:hidden">Bot Manager</span>
           </Link>
         </SidebarHeader>
-        <nav className="flex flex-col gap-2 px-2 mt-8">
+        <nav className="flex flex-col gap-3 px-4 mt-8 group-data-[collapsed=true]:px-2">
             <TooltipProvider>
           {navItems.map((item) => (
             <Tooltip key={item.href}>
                 <TooltipTrigger asChild>
                     <Link
                       href={item.href}
-                      className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors md:h-8 md:w-8 ${
+                      className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all group-data-[collapsed=true]:justify-center group-data-[collapsed=true]:px-2 group-data-[collapsed=true]:py-2 ${
                         pathname === item.href
                           ? 'bg-accent text-accent-foreground'
                           : 'text-muted-foreground hover:text-foreground'
                       }`}
                     >
-                      <item.icon className="h-5 w-5" />
-                      <span className="sr-only">{item.label}</span>
+                      <item.icon className="h-4 w-4" />
+                      <span className="group-data-[collapsed=true]:hidden">{item.label}</span>
                     </Link>
                 </TooltipTrigger>
                 <TooltipContent side="right">{item.label}</TooltipContent>
@@ -52,14 +52,14 @@ export function AppSidebar() {
           ))}
           </TooltipProvider>
         </nav>
-        <SidebarFooter className="mt-auto p-2">
+        <SidebarFooter className="mt-auto p-4 group-data-[collapsed=true]:p-2">
             <TooltipProvider>
                 <Tooltip>
                     <TooltipTrigger asChild>
                          <form action={logout} className="w-full">
-                            <Button variant="ghost" size="icon" className="w-full" type="submit">
-                                <LogOut className="h-5 w-5" />
-                                <span className="sr-only">Logout</span>
+                            <Button variant="ghost" className="w-full justify-start gap-3 group-data-[collapsed=true]:justify-center group-data-[collapsed=true]:px-2" type="submit">
+                                <LogOut className="h-4 w-4" />
+                                <span className="group-data-[collapsed=true]:hidden">Logout</span>
                             </Button>
                         </form>
                     </TooltipTrigger>
