@@ -1,40 +1,20 @@
 'use server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { promises as fs } from 'fs';
-import path from 'path';
-import crypto from 'crypto';
+import * as botService from '@/lib/services/bot-service';
 import type { Bot } from '@/lib/types';
 
-// In a real app, this would be a database. For this demo, we use a simple JSON file.
-// In a containerized environment, you'd mount a volume to persist this file.
-const botsFilePath = path.join(process.cwd(), 'src/data/bots.json');
-
-// MOCKED functions for file-based storage
-async function readBots(): Promise<Bot[]> {
-  try {
-    const data = await fs.readFile(botsFilePath, 'utf-8');
-    return JSON.parse(data);
-  } catch (error) {
-    return []; // If file doesn't exist, return empty array
-  }
-}
-
-async function writeBots(bots: Bot[]): Promise<void> {
-  await fs.writeFile(botsFilePath, JSON.stringify(bots, null, 2), 'utf-8');
-}
 
 // --- Server Actions ---
 
 export async function getBotsWithStatus(): Promise<Bot[]> {
   // In a real app, you would query Docker for the status of each bot.
   // Here we just return the status from our mock data file.
-  return await readBots();
+  return botService.getBots();
 }
 
 export async function getBotById(id: string): Promise<Bot | undefined> {
-    const bots = await readBots();
-    return bots.find((bot) => bot.id === id);
+    return botService.getBotById(id);
 }
 
 export async function deployBot(prevState: { error: string | undefined }, formData: FormData) {
@@ -46,15 +26,6 @@ export async function deployBot(prevState: { error: string | undefined }, formDa
     return { error: 'All fields are required.' };
   }
 
-  const bots = await readBots();
-  const newBot: Bot = {
-    id: crypto.randomUUID(),
-    name,
-    token, // In a real app, you'd store this securely (e.g., in a secret manager)
-    composeContent,
-    status: 'active', // Assume it starts successfully
-  };
-
   // MOCK: In a real app, you would:
   // 1. Create a directory for the bot
   // 2. Save the docker-compose.yml file
@@ -62,8 +33,7 @@ export async function deployBot(prevState: { error: string | undefined }, formDa
   // 4. Run `docker-compose up -d`
   console.log(`MOCK: Deploying bot "${name}"...`);
 
-  bots.push(newBot);
-  await writeBots(bots);
+  await botService.createBot({ name, token, composeContent });
 
   revalidatePath('/');
   redirect('/');
@@ -79,27 +49,22 @@ export async function updateBot(prevState: { error: string | undefined }, formDa
         return { error: 'ID, Name and Compose Content are required.' };
     }
 
-    const bots = await readBots();
-    const botIndex = bots.findIndex((b) => b.id === id);
+    const bot = await botService.getBotById(id);
 
-    if (botIndex === -1) {
+    if (!bot) {
         return { error: 'Bot not found.' };
     }
-
-    // Preserve original token if not provided
-    bots[botIndex] = {
-        ...bots[botIndex],
-        name,
-        composeContent,
-        token: token || bots[botIndex].token,
-    };
 
     // MOCK: In a real app, you would:
     // 1. Update the docker-compose.yml and .env files
     // 2. Run `docker-compose up -d --force-recreate` to apply changes
     console.log(`MOCK: Updating bot "${name}"...`);
 
-    await writeBots(bots);
+    await botService.updateBot(id, {
+        name,
+        composeContent,
+        token: token || bot.token,
+    });
 
     revalidatePath('/');
     revalidatePath(`/bots/${id}/edit`);
@@ -107,37 +72,31 @@ export async function updateBot(prevState: { error: string | undefined }, formDa
 }
 
 export async function startBot(botId: string) {
-  const bots = await readBots();
-  const bot = bots.find((b) => b.id === botId);
+  const bot = await botService.getBotById(botId);
   if (bot) {
     // MOCK: Run `docker-compose start`
     console.log(`MOCK: Starting bot "${bot.name}"...`);
-    bot.status = 'active';
-    await writeBots(bots);
+    await botService.updateBot(botId, { status: 'active' });
     revalidatePath('/');
   }
 }
 
 export async function stopBot(botId: string) {
-  const bots = await readBots();
-  const bot = bots.find((b) => b.id === botId);
+  const bot = await botService.getBotById(botId);
   if (bot) {
     // MOCK: Run `docker-compose stop`
     console.log(`MOCK: Stopping bot "${bot.name}"...`);
-    bot.status = 'inactive';
-    await writeBots(bots);
+    await botService.updateBot(botId, { status: 'inactive' });
     revalidatePath('/');
   }
 }
 
 export async function deleteBot(botId: string) {
-  let bots = await readBots();
-  const bot = bots.find((b) => b.id === botId);
+  const bot = await botService.getBotById(botId);
   if (bot) {
     // MOCK: Run `docker-compose down -v` and delete files
     console.log(`MOCK: Deleting bot "${bot.name}"...`);
-    bots = bots.filter((b) => b.id !== botId);
-    await writeBots(bots);
+    await botService.deleteBot(botId);
     revalidatePath('/');
   }
 }
