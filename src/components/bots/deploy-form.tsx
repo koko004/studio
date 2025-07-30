@@ -1,7 +1,7 @@
 'use client';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
+import { useActionState, useEffect } from 'react';
 import { deployBot } from '@/lib/actions/bots';
-import { useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -30,7 +30,7 @@ function SubmitButton() {
 }
 
 export function DeployForm() {
-    const [state, formAction] = useFormState(deployBot, { error: undefined });
+    const [state, formAction] = useActionState(deployBot, { error: undefined });
     const { toast } = useToast();
 
     useEffect(() => {
