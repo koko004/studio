@@ -71,7 +71,7 @@ export default function DashboardPage() {
       </Suspense>
 
       <div>
-        <h2 className="text-2xl font-semibold mb-4 font-headline">My Bots</h2>
+        <h2 className="text-2xl font-semibold mb-4 font-headline">Bots</h2>
         <Suspense fallback={<BotListSkeleton />}>
           <BotList />
         </Suspense>
