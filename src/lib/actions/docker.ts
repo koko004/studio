@@ -39,10 +39,20 @@ export async function getRunningContainerNames(): Promise<string[]> {
     }
 }
 
-export async function getContainerStatusByProject(projectName: string): Promise<{name: string, isRunning: boolean}[]> {
+export async function getContainerStatusByName(containerName: string): Promise<boolean> {
     try {
-        // Use the --project-name filter to get all containers for a specific compose project
-        const { stdout } = await execAsync(`docker-compose -p ${projectName} ps --format json`);
+        const { stdout } = await execAsync(`docker ps --filter "name=^/${containerName}$" --format "{{.Names}}"`);
+        return stdout.trim().split('\n').filter(Boolean).length > 0;
+    } catch (error) {
+        console.error(`Failed to get status for container ${containerName}:`, error);
+        return false;
+    }
+}
+
+export async function getContainerStatusByProject(projectName: string, projectDir: string): Promise<{name: string, isRunning: boolean}[]> {
+    try {
+        // Use the --project-name and --project-directory filters to get all containers for a specific compose project
+        const { stdout } = await execAsync(`docker-compose -p ${projectName} --project-directory ${projectDir} ps --format json`);
         if (!stdout.trim()) {
             return [];
         }

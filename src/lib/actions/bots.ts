@@ -3,8 +3,18 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import * as botService from '@/lib/services/bot-service';
 import type { Bot } from '@/lib/types';
-import { getContainerStatusByProject } from './docker';
+import { getContainerStatusByName } from './docker';
 
+
+// A simple, non-robust YAML parser to find the container_name
+function getContainerNameFromCompose(composeContent: string): string | null {
+    const lines = composeContent.split('\n');
+    const containerNameLine = lines.find(line => line.trim().startsWith('container_name:'));
+    if (containerNameLine) {
+        return containerNameLine.split(':')[1].trim();
+    }
+    return null;
+}
 
 // --- Server Actions ---
 
@@ -12,11 +22,16 @@ export async function getBotsWithStatus(): Promise<Bot[]> {
   const bots = await botService.getBots();
   
   const botsWithStatus = await Promise.all(bots.map(async (bot) => {
-    const projectName = botService.getBotProjectName(bot.id);
-    const containerStatus = await getContainerStatusByProject(projectName);
+    const containerName = getContainerNameFromCompose(bot.composeContent);
     
-    // If there's at least one container and it's running, the bot is active.
-    const isRunning = containerStatus.length > 0 && containerStatus.some(c => c.isRunning);
+    let isRunning = false;
+    if (containerName) {
+        isRunning = await getContainerStatusByName(containerName);
+    } else {
+        // Fallback for bots without an explicit container_name
+        // This part of the logic can be improved if needed
+        console.warn(`Bot ${bot.id} does not have a container_name defined.`);
+    }
     
     return {
       ...bot,

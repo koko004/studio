@@ -93,13 +93,13 @@ export function BotCard({ bot }: { bot: Bot }) {
                 ) : (
                     <>
                     {bot.status !== 'active' && (
-                        <Button variant="outline" size="icon" title="Start" onClick={() => handleAction(startBot)}>
+                        <Button variant="outline" size="icon" title="Start" onClick={() => handleAction(startBot)} className="hover:bg-green-100 hover:text-green-800 dark:hover:bg-green-900/50 dark:hover:text-green-300">
                             <Play className="h-4 w-4" />
                             <span className="sr-only">Start</span>
                         </Button>
                     )}
                     {bot.status === 'active' && (
-                         <Button variant="outline" size="icon" title="Stop" onClick={() => handleAction(stopBot)}>
+                         <Button variant="outline" size="icon" title="Stop" onClick={() => handleAction(stopBot)} className="hover:bg-red-100 hover:text-red-800 dark:hover:bg-red-900/50 dark:hover:text-red-300">
                             <Square className="h-4 w-4" />
                             <span className="sr-only">Stop</span>
                         </Button>
@@ -110,13 +110,13 @@ export function BotCard({ bot }: { bot: Bot }) {
                             <span className="sr-only">Edit</span>
                         </Link>
                     </Button>
-                     <Button asChild variant="outline" size="icon" title="View Logs">
+                     <Button asChild variant="outline" size="icon" title="View Logs" className="text-blue-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/50">
                        <Link href={`/bots/${bot.id}/logs`}>
                             <FileText className="h-4 w-4" />
                             <span className="sr-only">View Logs</span>
                         </Link>
                     </Button>
-                     <Button variant="outline" size="icon" title="Check API Status" onClick={handleApiCheck}>
+                     <Button variant="outline" size="icon" title="Check API Status" onClick={handleApiCheck} className="text-yellow-500 hover:text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/50">
                         <Webhook className="h-4 w-4" />
                         <span className="sr-only">Check API Status</span>
                     </Button>
