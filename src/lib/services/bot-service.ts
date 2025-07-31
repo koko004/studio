@@ -118,8 +118,8 @@ export async function deleteBot(id: string): Promise<boolean> {
     const botDirExists = await fse.pathExists(botDir);
     
     if (botDirExists) {
-      // Stop and remove containers, volumes, etc. only if the directory exists
-      await runComposeCommand(id, 'down -v');
+      // Stop and remove containers, volumes, networks and images
+      await runComposeCommand(id, 'down -v --rmi all');
       // Delete the bot's directory
       await fse.remove(botDir);
     }
