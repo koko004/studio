@@ -32,7 +32,7 @@ export default async function BotLogsPage({ params }: { params: { id: string } }
                 <CardHeader>
                     <CardTitle>Container Logs</CardTitle>
                     <CardDescription>
-                       Real-time logs from your bot's container will appear here. This is mock data.
+                       Real-time logs from your bot's container will appear here.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
