@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "id": "abc315ac-ffaf-4298-bf14-63189343ba9a",
+    "name": "z0r3n",
+    "composeContent": "services:\r\n  wallbot:\r\n    image: z0r3f/wallbot-docker:latest\r\n    container_name: wallbot-z0r3f\r\n    volumes:\r\n      - /wallbot-z0r3f/db:/data \r\n    environment:\r\n      - BOT_TOKEN=6839617734:AAFULVX3xsf1LgHOCKKjAOcen_RZ4Uj6PR4",
+    "status": "inactive"
+  }
+]

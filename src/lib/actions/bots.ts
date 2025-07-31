@@ -46,7 +46,7 @@ export async function getBotById(id: string): Promise<Bot | undefined> {
     return botService.getBotById(id);
 }
 
-export async function deployBot(prevState: { error: string | undefined }, formData: FormData) {
+export async function deployBot(prevState: { error: string | undefined, success?: boolean }, formData: FormData) {
   const name = formData.get('name') as string;
   const token = formData.get('token') as string;
   const composeContent = formData.get('composeContent') as string;
@@ -62,11 +62,12 @@ export async function deployBot(prevState: { error: string | undefined }, formDa
     return { error: `Failed to deploy bot: ${error.message}` };
   }
 
+  console.log('Revalidating path / after deployBot');
   revalidatePath('/');
-  redirect('/');
+  return { success: true };
 }
 
-export async function updateBot(prevState: { error: string | undefined }, formData: FormData) {
+export async function updateBot(prevState: { error: string | undefined, success?: boolean }, formData: FormData) {
     const id = formData.get('id') as string;
     const name = formData.get('name') as string;
     const token = formData.get('token') as string;
@@ -98,9 +99,10 @@ export async function updateBot(prevState: { error: string | undefined }, formDa
     }
 
 
+    console.log('Revalidating paths / and /bots/[id]/edit after updateBot');
     revalidatePath('/');
     revalidatePath(`/bots/${id}/edit`);
-    redirect('/');
+    return { success: true };
 }
 
 export async function startBot(botId: string) {
@@ -110,6 +112,7 @@ export async function startBot(botId: string) {
     console.error(`Failed to start bot ${botId}:`, error.message);
     // Optionally, you could use a toast to show this error to the user
   }
+  console.log('Revalidating path / after startBot');
   revalidatePath('/');
 }
 
@@ -119,6 +122,7 @@ export async function stopBot(botId: string) {
   } catch (error: any) {
     console.error(`Failed to stop bot ${botId}:`, error.message);
   }
+  console.log('Revalidating path / after stopBot');
   revalidatePath('/');
 }
 
@@ -128,7 +132,9 @@ export async function deleteBot(botId: string) {
   } catch(error: any) {
     console.error(`Failed to delete bot ${botId}:`, error.message);
   }
+  console.log('Revalidating path / after deleteBot');
   revalidatePath('/');
+  return { success: true };
 }
 
 export async function getBotLogs(botId: string): Promise<string> {
@@ -142,6 +148,10 @@ export async function getBotLogs(botId: string): Promise<string> {
     } catch (error: any) {
         return `Failed to retrieve logs: ${error.message}`;
     }
+}
+
+export async function getArchivedLogs(botId: string) {
+    return botService.getArchivedLogs(botId);
 }
 
 

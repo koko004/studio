@@ -1,4 +1,5 @@
 import { SettingsForm } from "@/components/settings/settings-form";
+import { PasswordSettingsForm } from "@/components/settings/password-settings-form";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 
 export default function SettingsPage() {
@@ -23,7 +24,7 @@ export default function SettingsPage() {
                     <CardDescription>Manage your account password.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-sm text-muted-foreground">Password management is not available in this demo.</p>
+                    <PasswordSettingsForm />
                 </CardContent>
             </Card>
         </div>

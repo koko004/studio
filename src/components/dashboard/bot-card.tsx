@@ -20,15 +20,30 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 
 
 export function BotCard({ bot }: { bot: Bot }) {
     const [isPending, startTransition] = useTransition();
     const { toast } = useToast();
+    const router = useRouter();
 
-    const handleAction = (action: (botId: string) => Promise<void>) => {
-        startTransition(() => {
-            action(bot.id);
+    const handleAction = (action: (botId: string) => Promise<{ success?: boolean; error?: string }>) => {
+        startTransition(async () => {
+            const result = await action(bot.id);
+            if (result?.error) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Action Failed',
+                    description: result.error,
+                });
+            } else if (result?.success) {
+                toast({
+                    title: 'Action Successful',
+                    description: 'The bot action was completed.',
+                });
+                router.refresh(); // Refresh the current route to re-fetch data
+            }
         });
     };
     

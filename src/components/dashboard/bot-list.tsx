@@ -1,12 +1,10 @@
 import { BotCard } from './bot-card';
-import { getBotsWithStatus } from '@/lib/actions/bots';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PlusCircle } from 'lucide-react';
+import type { Bot } from '@/lib/types';
 
-export async function BotList() {
-    const bots = await getBotsWithStatus();
-    
+export function BotList({ bots }: { bots: Bot[] }) {
     if (bots.length === 0) {
         return (
             <div className="text-center py-16 border-2 border-dashed rounded-lg bg-card">

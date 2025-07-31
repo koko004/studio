@@ -1,0 +1,1161 @@
+
+> nextn@0.1.0 dev
+> node -r dotenv/config ./node_modules/.bin/next dev --turbopack
+
+   ▲ Next.js 15.3.3 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.212:3000
+   - Environments: .env
+
+ ✓ Starting...
+ ○ Compiling middleware ...
+ ✓ Compiled middleware in 786ms
+ ✓ Ready in 2.8s
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ ○ Compiling / ...
+ ✓ Compiled / in 8.3s
+Initializing database...
+Database read. Current data: {
+  users: [
+    {
+      id: 'admin',
+      username: 'admin',
+      password: '$2b$10$MER96h8vJ2do1kueHx5bse4tTTcq58xpKybfYJTAJo6igCktoW0je'
+    }
+  ],
+  bots: [
+    {
+      id: '5f9866c7-0eea-437a-8c3f-a19f778b5a94',
+      name: 'IceFox2',
+      composeContent: 'services:\r\n' +
+        '  wallbot:\r\n' +
+        '    image: z0r3f/wallbot-docker:latest\r\n' +
+        '    container_name: wallbot-z0r3f\r\n' +
+        '    volumes:\r\n' +
+        '      - /wallbot-z0r3f/db:/data \r\n' +
+        '    environment:\r\n' +
+        '      - BOT_TOKEN=6839617734:AAFULVX3xsf1LgHOCKKjAOcen_RZ4Uj6PR4',
+      status: 'inactive'
+    }
+  ],
+  logs: [
+    {
+      id: '9da00a37-e675-4cd4-9434-af8884fd261b',
+      botId: 'c808ec97-dbe6-429e-abeb-92089296ea47',
+      log: 'Attaching to wallbot-z0r3f\n',
+      timestamp: '2025-07-31T22:48:27.486Z'
+    },
+    {
+      id: '54a82c95-0b20-4114-a1a5-be27bdd951db',
+      botId: 'c26828a3-6f96-4b2d-940f-92081a98c490',
+      log: 'Attaching to wallbot-z0r3f\n' +
+        '\x1B[36mwallbot-z0r3f |\x1B[0m 2025-08-01 00:56:22,842 (__init__.py:544 MainThread) ERROR - TeleBot: "A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running"\n' +
+        '\x1B[36mwallbot-z0r3f |\x1B[0m 2025-08-01 00:56:26,694 (__init__.py:544 MainThread) ERROR - TeleBot: "A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running"\n' +
+        '\x1B[36mwallbot-z0r3f |\x1B[0m 2025-08-01 00:56:31,292 (__init__.py:544 MainThread) ERROR - TeleBot: "A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running"\n' +
+        '\x1B[36mwallbot-z0r3f |\x1B[0m 2025-08-01 00:56:37,389 (__init__.py:544 MainThread) ERROR - TeleBot: "A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running"\n' +
+        '\x1B[36mwallbot-z0r3f |\x1B[0m 2025-08-01 00:56:43,486 (__init__.py:544 MainThread) ERROR - TeleBot: "A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running"\n',
+      timestamp: '2025-07-31T22:56:48.479Z'
+    },
+    {
+      id: '56d4303f-6834-4466-9d81-584454c5ae6b',
+      botId: 'c26828a3-6f96-4b2d-940f-92081a98c490',
+      log: 'Attaching to wallbot-z0r3f\n' +
+        '\x1B[36mwallbot-z0r3f |\x1B[0m 2025-08-01 00:56:22,842 (__init__.py:544 MainThread) ERROR - TeleBot: "A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running"\n' +
+        '\x1B[36mwallbot-z0r3f |\x1B[0m 2025-08-01 00:56:26,694 (__init__.py:544 MainThread) ERROR - TeleBot: "A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running"\n' +
+        '\x1B[36mwallbot-z0r3f |\x1B[0m 2025-08-01 00:56:31,292 (__init__.py:544 MainThread) ERROR - TeleBot: "A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running"\n' +
+        '\x1B[36mwallbot-z0r3f |\x1B[0m 2025-08-01 00:56:37,389 (__init__.py:544 MainThread) ERROR - TeleBot: "A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running"\n' +
+        '\x1B[36mwallbot-z0r3f |\x1B[0m 2025-08-01 00:56:43,486 (__init__.py:544 MainThread) ERROR - TeleBot: "A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running"\n',
+      timestamp: '2025-07-31T22:56:55.133Z'
+    }
+  ]
+}
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 1
+ GET / 200 in 9560ms
+ ⚠ Cross origin request detected from 192.168.1.212 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 972ms
+ GET /favicon.ico?favicon.56766c03.ico 200 in 1289ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ ○ Compiling /bots/new ...
+ ✓ Compiled /bots/new in 2.6s
+ GET /bots/new 200 in 2772ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting createBot ---
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 1
+Bots before creation: 1
+Bots after creation: 2
+--- Starting writeBots ---
+writeBots: Before update: db.data.bots length: 2
+writeBots: After update: db.data.bots length: 2
+--- Finished writeBots ---
+--- Finished createBot ---
+ ✓ Compiled in 231ms
+Failed to execute docker-compose command for bot 948fd089-9265-414e-979f-50d07931bede: Command failed: docker-compose -p bot-948fd089 --project-directory /root/studio/src/data/bots/948fd089-9265-414e-979f-50d07931bede up -d --force-recreate
+Creating network "bot-948fd089_default" with the default driver
+Creating wallbot-z0r3f ... 
+Creating wallbot-z0r3f ... error
+
+ERROR: for wallbot-z0r3f  Cannot create container for service wallbot: Conflict. The container name "/wallbot-z0r3f" is already in use by container "96e32621949533d3b4892eff8cca5bbaa9e28e92eff4d0427026689f9e850846". You have to remove (or rename) that container to be able to reuse that name.
+
+ERROR: for wallbot  Cannot create container for service wallbot: Conflict. The container name "/wallbot-z0r3f" is already in use by container "96e32621949533d3b4892eff8cca5bbaa9e28e92eff4d0427026689f9e850846". You have to remove (or rename) that container to be able to reuse that name.
+Encountered errors while bringing up the project.
+
+ POST /bots/new 200 in 847ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ GET /bots/new 200 in 87ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting createBot ---
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 2
+Bots before creation: 2
+Bots after creation: 3
+--- Starting writeBots ---
+writeBots: Before update: db.data.bots length: 3
+writeBots: After update: db.data.bots length: 3
+--- Finished writeBots ---
+--- Finished createBot ---
+Docker-compose command for d1596d37-91b6-4483-98bb-23a396d6c68c had stderr: Creating network "bot-d1596d37_default" with the default driver
+Creating wallbot2-z0r3f ... 
+Creating wallbot2-z0r3f ... done
+
+Revalidating path / after deployBot
+ POST /bots/new 200 in 11448ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ ✓ Compiled / in 17ms
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 3
+ GET / 200 in 382ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting deleteBot for ID: 948fd089-9265-414e-979f-50d07931bede ---
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 3
+Bots before deletion: 3
+Bot directory exists, running compose down...
+Docker-compose command for 948fd089-9265-414e-979f-50d07931bede had stderr: Removing network bot-948fd089_default
+Removing image z0r3f/wallbot-docker:latest
+Failed to remove image for service wallbot: 409 Client Error for http+docker://localhost/v1.41/images/z0r3f/wallbot-docker:latest?force=False&noprune=False: Conflict ("conflict: unable to remove repository reference "z0r3f/wallbot-docker:latest" (must force) - container 96e326219495 is using its referenced image 8de071d05459")
+
+Compose down finished. Deleting directory...
+Directory deleted.
+Bots after deletion: 2
+--- Starting writeBots ---
+writeBots: Before update: db.data.bots length: 3
+writeBots: After update: db.data.bots length: 2
+--- Finished writeBots ---
+--- Finished deleteBot ---
+Revalidating path / after deleteBot
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 2
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ POST / 200 in 1330ms
+ ✓ Compiled / in 15ms
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 2
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 2
+ GET / 200 in 761ms
+ GET / 200 in 420ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 2
+ GET / 200 in 556ms
+ GET /favicon.ico?favicon.56766c03.ico 200 in 241ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting deleteBot for ID: d1596d37-91b6-4483-98bb-23a396d6c68c ---
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 2
+Bots before deletion: 2
+Bot directory exists, running compose down...
+Docker-compose command for d1596d37-91b6-4483-98bb-23a396d6c68c had stderr: Stopping wallbot2-z0r3f ... 
+Stopping wallbot2-z0r3f ... done
+Removing wallbot2-z0r3f ... 
+Removing wallbot2-z0r3f ... done
+Removing network bot-d1596d37_default
+Removing image z0r3f/wallbot-docker:latest
+Failed to remove image for service wallbot: 409 Client Error for http+docker://localhost/v1.41/images/z0r3f/wallbot-docker:latest?force=False&noprune=False: Conflict ("conflict: unable to remove repository reference "z0r3f/wallbot-docker:latest" (must force) - container 96e326219495 is using its referenced image 8de071d05459")
+
+Compose down finished. Deleting directory...
+Directory deleted.
+Bots after deletion: 1
+--- Starting writeBots ---
+writeBots: Before update: db.data.bots length: 2
+writeBots: After update: db.data.bots length: 1
+--- Finished writeBots ---
+--- Finished deleteBot ---
+Revalidating path / after deleteBot
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 1
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 1
+ POST / 200 in 11535ms
+ GET / 200 in 455ms
+ GET /favicon.ico?favicon.56766c03.ico 200 in 238ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting deleteBot for ID: 5f9866c7-0eea-437a-8c3f-a19f778b5a94 ---
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 1
+Bots before deletion: 1
+Bot directory exists, running compose down...
+Docker-compose command for 5f9866c7-0eea-437a-8c3f-a19f778b5a94 had stderr: Stopping wallbot-z0r3f ... 
+Stopping wallbot-z0r3f ... done
+Removing wallbot-z0r3f ... 
+Removing wallbot-z0r3f ... done
+Removing network bot-5f9866c7_default
+Removing image z0r3f/wallbot-docker:latest
+
+Compose down finished. Deleting directory...
+Directory deleted.
+Bots after deletion: 0
+--- Starting writeBots ---
+writeBots: Before update: db.data.bots length: 1
+writeBots: After update: db.data.bots length: 0
+--- Finished writeBots ---
+--- Finished deleteBot ---
+Revalidating path / after deleteBot
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 0
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ POST / 200 in 12179ms
+ ✓ Compiled / in 15ms
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 0
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 0
+ GET / 200 in 586ms
+ GET / 200 in 304ms
+ GET /favicon.ico?favicon.56766c03.ico 200 in 238ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ GET /bots/new 200 in 59ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting createBot ---
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 0
+Bots before creation: 0
+Bots after creation: 1
+--- Starting writeBots ---
+writeBots: Before update: db.data.bots length: 1
+writeBots: After update: db.data.bots length: 1
+--- Finished writeBots ---
+--- Finished createBot ---
+Docker-compose command for d3c21522-bbc9-4a54-bf75-554652b25403 had stderr: Creating network "bot-d3c21522_default" with the default driver
+Pulling wallbot (z0r3f/wallbot-docker:latest)...
+Creating wallbot-z0r3f ... 
+Creating wallbot-z0r3f ... done
+
+Revalidating path / after deployBot
+ POST /bots/new 200 in 32209ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 1
+ GET / 200 in 364ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ ○ Compiling /settings ...
+ ✓ Compiled /settings in 2.6s
+ GET /settings 200 in 2744ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+Error: Route "/settings" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getSession (src/lib/auth.ts:37:34)
+    at changePassword (src/lib/actions/auth.ts:31:33)
+  35 |
+  36 | export async function getSession() {
+> 37 |   const sessionCookie = cookies().get('session')?.value;
+     |                                  ^
+  38 |   if (!sessionCookie) return null;
+  39 |   return await decrypt(sessionCookie);
+  40 | }
+findUserById: Reading DB for user
+updateUser: Before update: db.data.users length: 1
+updateUser: After update: db.data.users length: 1
+updateUser: DB written.
+ POST /settings 200 in 865ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ GET /settings 200 in 79ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+Error: Route "/settings" used `cookies().delete('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at deleteSession (src/lib/auth.ts:60:19)
+    at logout (src/lib/actions/auth.ts:25:20)
+  58 |
+  59 | export async function deleteSession() {
+> 60 |   cookies().delete('session');
+     |                   ^
+  61 | }
+  62 |
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ ○ Compiling /login ...
+ ✓ Compiled /login in 1882ms
+Error: Route "/login" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getSession (src/lib/auth.ts:37:34)
+    at LoginPage (src/app/login/page.tsx:6:33)
+  35 |
+  36 | export async function getSession() {
+> 37 |   const sessionCookie = cookies().get('session')?.value;
+     |                                  ^
+  38 |   if (!sessionCookie) return null;
+  39 |   return await decrypt(sessionCookie);
+  40 | }
+ GET /login 200 in 2000ms
+ POST /settings 303 in 2530ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+findUserByUsername: Reading DB for user
+ POST /login 200 in 166ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+findUserByUsername: Reading DB for user
+Error: Route "/login" used `cookies().set('session', ...)`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at createSession (src/lib/auth.ts:33:12)
+    at async login (src/lib/actions/auth.ts:16:4)
+  31 |   const session = await encrypt({ userId, expires });
+  32 |
+> 33 |   cookies().set('session', session, { expires, httpOnly: true });
+     |            ^
+  34 | }
+  35 |
+  36 | export async function getSession() {
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 1
+ GET / 200 in 374ms
+ POST /login 303 in 997ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ ○ Compiling /bots/[id]/edit ...
+ ✓ Compiled /bots/[id]/edit in 2.4s
+Error: Route "/bots/[id]/edit" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at EditBotPage (src/app/(app)/bots/[id]/edit/page.tsx:7:40)
+   5 |
+   6 | export default async function EditBotPage({ params }: { params: { id: string } }) {
+>  7 |     const bot = await getBotById(params.id);
+     |                                        ^
+   8 |
+   9 |     if (!bot) {
+  10 |         notFound();
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 1
+ GET /bots/d3c21522-bbc9-4a54-bf75-554652b25403/edit 200 in 3644ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ GET /bots/new 200 in 57ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting createBot ---
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 1
+Bots before creation: 1
+Bots after creation: 2
+--- Starting writeBots ---
+writeBots: Before update: db.data.bots length: 2
+writeBots: After update: db.data.bots length: 2
+--- Finished writeBots ---
+--- Finished createBot ---
+ ✓ Compiled in 655ms
+Docker-compose command for 290ed0bf-9dd9-4ef3-9eb1-2439c6d454cf had stderr: Creating network "bot-290ed0bf_default" with the default driver
+Creating wallbot2-z0r3f ... 
+Creating wallbot2-z0r3f ... done
+
+Revalidating path / after deployBot
+ POST /bots/new 200 in 10425ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ GET /bots/new 200 in 92ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ GET /bots/new 200 in 80ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ ✓ Compiled / in 17ms
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 2
+ GET / 200 in 432ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting deleteBot for ID: 290ed0bf-9dd9-4ef3-9eb1-2439c6d454cf ---
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 2
+Bots before deletion: 2
+Bot directory exists, running compose down...
+Docker-compose command for 290ed0bf-9dd9-4ef3-9eb1-2439c6d454cf had stderr: Stopping wallbot2-z0r3f ... 
+Stopping wallbot2-z0r3f ... done
+Removing wallbot2-z0r3f ... 
+Removing wallbot2-z0r3f ... done
+Removing network bot-290ed0bf_default
+Removing image z0r3f/wallbot-docker:latest
+Failed to remove image for service wallbot: 409 Client Error for http+docker://localhost/v1.41/images/z0r3f/wallbot-docker:latest?force=False&noprune=False: Conflict ("conflict: unable to remove repository reference "z0r3f/wallbot-docker:latest" (must force) - container 4739a81c8ce2 is using its referenced image 8de071d05459")
+
+Compose down finished. Deleting directory...
+Directory deleted.
+Bots after deletion: 1
+--- Starting writeBots ---
+writeBots: Before update: db.data.bots length: 2
+writeBots: After update: db.data.bots length: 1
+--- Finished writeBots ---
+--- Finished deleteBot ---
+Revalidating path / after deleteBot
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 1
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ POST / 200 in 11591ms
+ ✓ Compiled in 736ms
+ ✓ Compiled / in 17ms
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 1
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 1
+ GET / 200 in 964ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 1
+ GET / 200 in 573ms
+ GET / 200 in 463ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting deleteBot for ID: d3c21522-bbc9-4a54-bf75-554652b25403 ---
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 1
+Bots before deletion: 1
+Bot directory exists, running compose down...
+Docker-compose command for d3c21522-bbc9-4a54-bf75-554652b25403 had stderr: Stopping wallbot-z0r3f ... 
+Stopping wallbot-z0r3f ... done
+Removing wallbot-z0r3f ... 
+Removing wallbot-z0r3f ... done
+Removing network bot-d3c21522_default
+Removing image z0r3f/wallbot-docker:latest
+
+Compose down finished. Deleting directory...
+Directory deleted.
+Bots after deletion: 0
+--- Starting writeBots ---
+writeBots: Before update: db.data.bots length: 1
+writeBots: After update: db.data.bots length: 0
+--- Finished writeBots ---
+--- Finished deleteBot ---
+Revalidating path / after deleteBot
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 0
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ POST / 200 in 12194ms
+ ✓ Compiled / in 14ms
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 0
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 0
+ GET / 200 in 738ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 0
+ GET / 200 in 408ms
+ GET / 200 in 337ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ GET /settings 200 in 62ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ GET /settings 200 in 79ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+Error: Route "/settings" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getSession (src/lib/auth.ts:37:34)
+    at changePassword (src/lib/actions/auth.ts:31:33)
+  35 |
+  36 | export async function getSession() {
+> 37 |   const sessionCookie = cookies().get('session')?.value;
+     |                                  ^
+  38 |   if (!sessionCookie) return null;
+  39 |   return await decrypt(sessionCookie);
+  40 | }
+findUserById: Reading DB for user
+updateUser: Before update: db.data.users length: 1
+updateUser: After update: db.data.users length: 1
+updateUser: DB written.
+ POST /settings 200 in 675ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 0
+ GET / 200 in 305ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ GET /bots/new 200 in 59ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting createBot ---
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 0
+Bots before creation: 0
+Bots after creation: 1
+--- Starting writeBots ---
+writeBots: Before update: db.data.bots length: 1
+writeBots: After update: db.data.bots length: 1
+--- Finished writeBots ---
+--- Finished createBot ---
+ ✓ Compiled in 455ms
+Docker-compose command for a8e816ea-27c1-42c5-982b-c0fa6d8d28fb had stderr: Creating network "bot-a8e816ea_default" with the default driver
+Pulling wallbot (z0r3f/wallbot-docker:latest)...
+Creating wallbot-z0r3f ... 
+Creating wallbot-z0r3f ... done
+
+Revalidating path / after deployBot
+ POST /bots/new 200 in 67812ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ GET /bots/new 200 in 87ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ GET /bots/new 200 in 79ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ ✓ Compiled / in 15ms
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 1
+ GET / 200 in 347ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting deleteBot for ID: a8e816ea-27c1-42c5-982b-c0fa6d8d28fb ---
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 1
+Bots before deletion: 1
+Bot directory exists, running compose down...
+Docker-compose command for a8e816ea-27c1-42c5-982b-c0fa6d8d28fb had stderr: Stopping wallbot-z0r3f ... 
+Stopping wallbot-z0r3f ... done
+Removing wallbot-z0r3f ... 
+Removing wallbot-z0r3f ... done
+Removing network bot-a8e816ea_default
+Removing image z0r3f/wallbot-docker:latest
+
+Compose down finished. Deleting directory...
+Directory deleted.
+Bots after deletion: 0
+--- Starting writeBots ---
+writeBots: Before update: db.data.bots length: 1
+writeBots: After update: db.data.bots length: 0
+--- Finished writeBots ---
+--- Finished deleteBot ---
+Revalidating path / after deleteBot
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 0
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+ POST / 200 in 17995ms
+ ✓ Compiled / in 16ms
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 0
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 0
+ GET / 200 in 818ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 0
+ GET / 200 in 439ms
+ GET / 200 in 314ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+Error: Route "/" used `cookies().delete('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at deleteSession (src/lib/auth.ts:60:19)
+    at logout (src/lib/actions/auth.ts:25:20)
+  58 |
+  59 | export async function deleteSession() {
+> 60 |   cookies().delete('session');
+     |                   ^
+  61 | }
+  62 |
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+Error: Route "/login" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getSession (src/lib/auth.ts:37:34)
+    at LoginPage (src/app/login/page.tsx:6:33)
+  35 |
+  36 | export async function getSession() {
+> 37 |   const sessionCookie = cookies().get('session')?.value;
+     |                                  ^
+  38 |   if (!sessionCookie) return null;
+  39 |   return await decrypt(sessionCookie);
+  40 | }
+ GET /login 200 in 90ms
+ POST / 303 in 701ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+findUserByUsername: Reading DB for user
+ POST /login 200 in 160ms
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+findUserByUsername: Reading DB for user
+Error: Route "/login" used `cookies().set('session', ...)`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at createSession (src/lib/auth.ts:33:12)
+    at async login (src/lib/actions/auth.ts:16:4)
+  31 |   const session = await encrypt({ userId, expires });
+  32 |
+> 33 |   cookies().set('session', session, { expires, httpOnly: true });
+     |            ^
+  34 | }
+  35 |
+  36 | export async function getSession() {
+Error: Route "/" used `cookies().get('session')`. `cookies()` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at middleware (src/middleware.ts:12:27)
+  10 |   const isProtectedRoute = protectedRoutes.includes(path);
+  11 |
+> 12 |   const cookie = cookies().get('session')?.value;
+     |                           ^
+  13 |   const session = cookie ? await decrypt(cookie) : null;
+  14 |
+  15 |   if (isProtectedRoute && !session?.userId) { {
+  
+}
+--- Starting getBots ---
+getBots: Bots retrieved from DB: 0
+ GET / 200 in 336ms
+ POST /login 303 in 958ms
+[?25h

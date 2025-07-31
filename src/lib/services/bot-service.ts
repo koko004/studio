@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import type { Bot } from '@/lib/types';
+import type { Bot, Log } from '@/lib/types';
 import * as db from './db';
 import path from 'path';
 import fse from 'fs-extra';
@@ -51,6 +51,7 @@ export async function getBotById(id: string): Promise<Bot | undefined> {
 type CreateBotData = Omit<Bot, 'id' | 'status'>;
 
 export async function createBot(botData: CreateBotData): Promise<Bot> {
+  console.log('--- Starting createBot ---');
   const newBot: Bot = {
     id: crypto.randomUUID(),
     name: botData.name,
@@ -68,13 +69,15 @@ export async function createBot(botData: CreateBotData): Promise<Bot> {
   await fse.writeFile(composePath, newBot.composeContent);
   await fse.writeFile(envPath, `BOT_TOKEN=${newBot.token}`);
   
-  // Don't store the token in the main DB file for security
   const botToSave = { ...newBot };
   delete (botToSave as any).token;
 
   const bots = await db.getBots();
+  console.log(`Bots before creation: ${bots.length}`);
   bots.push(botToSave);
+  console.log(`Bots after creation: ${bots.length}`);
   await db.writeBots(bots);
+  console.log('--- Finished createBot ---');
 
   return newBot;
 }
@@ -108,9 +111,12 @@ export async function updateBot(id: string, botData: UpdateBotData): Promise<Bot
 
 
 export async function deleteBot(id: string): Promise<boolean> {
+    console.log(`--- Starting deleteBot for ID: ${id} ---`);
     let bots = await db.getBots();
+    console.log(`Bots before deletion: ${bots.length}`);
     const botExists = bots.some((b) => b.id === id);
     if (!botExists) {
+        console.log('Bot not found in DB, exiting delete.');
         return false;
     }
 
@@ -118,15 +124,17 @@ export async function deleteBot(id: string): Promise<boolean> {
     const botDirExists = await fse.pathExists(botDir);
     
     if (botDirExists) {
-      // Stop and remove containers, volumes, networks and images
+      console.log('Bot directory exists, running compose down...');
       await runComposeCommand(id, 'down -v --rmi all');
-      // Delete the bot's directory
+      console.log('Compose down finished. Deleting directory...');
       await fse.remove(botDir);
+      console.log('Directory deleted.');
     }
 
-    // Always filter the bot from the database file
     const newBots = bots.filter((b) => b.id !== id);
+    console.log(`Bots after deletion: ${newBots.length}`);
     await db.writeBots(newBots);
+    console.log('--- Finished deleteBot ---');
     
     return true;
 }
@@ -142,5 +150,17 @@ export async function stopBot(id: string): Promise<void> {
 }
 
 export async function getBotLogs(id: string): Promise<string> {
-    return await runComposeCommand(id, 'logs --tail="100"');
+    const logs = await runComposeCommand(id, 'logs --tail="100"');
+    const newLog: Log = {
+        id: crypto.randomUUID(),
+        botId: id,
+        log: logs,
+        timestamp: new Date(),
+    };
+    await db.addLog(newLog);
+    return logs;
+}
+
+export async function getArchivedLogs(botId: string): Promise<Log[]> {
+    return await db.getLogs(botId);
 }

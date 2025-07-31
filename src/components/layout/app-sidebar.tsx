@@ -39,7 +39,7 @@ export function AppSidebar() {
                       href={item.href}
                       className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all group-data-[collapsed=true]:justify-center group-data-[collapsed=true]:px-2 group-data-[collapsed=true]:py-2 ${
                         pathname === item.href
-                          ? 'bg-accent text-accent-foreground'
+                          ? 'bg-primary text-primary-foreground'
                           : 'text-muted-foreground hover:text-foreground'
                       }`}
                     >

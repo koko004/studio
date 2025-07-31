@@ -8,6 +8,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const DUMMY_COMPOSE_CONTENT = `version: '3.8'
 services:
@@ -32,6 +33,7 @@ function SubmitButton() {
 export function DeployForm() {
     const [state, formAction] = useActionState(deployBot, { error: undefined });
     const { toast } = useToast();
+    const router = useRouter();
 
     useEffect(() => {
         if (state?.error) {
@@ -41,7 +43,14 @@ export function DeployForm() {
                 description: state.error,
             });
         }
-    }, [state, toast]);
+        if (state?.success) {
+            toast({
+                title: 'Deployment Successful',
+                description: 'Your bot has been deployed.',
+            });
+            router.push('/');
+        }
+    }, [state, toast, router]);
 
     return (
         <form action={formAction} className="grid gap-6">
