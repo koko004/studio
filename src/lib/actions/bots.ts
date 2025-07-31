@@ -3,14 +3,27 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import * as botService from '@/lib/services/bot-service';
 import type { Bot } from '@/lib/types';
+import { getRunningContainerIds } from './docker';
 
 
 // --- Server Actions ---
 
 export async function getBotsWithStatus(): Promise<Bot[]> {
-  // In a real app, you would query Docker for the status of each bot.
-  // Here we just return the status from our mock data file.
-  return botService.getBots();
+  const bots = await botService.getBots();
+  const runningContainerIds = await getRunningContainerIds();
+  
+  const botsWithStatus = bots.map(bot => {
+    // The project name in docker-compose is derived from the directory name.
+    const projectName = botService.getBotProjectName(bot.id);
+    // We check if any running container's name starts with our project name.
+    const isRunning = runningContainerIds.some(id => id.startsWith(projectName));
+    return {
+      ...bot,
+      status: isRunning ? 'active' : 'inactive'
+    }
+  });
+
+  return botsWithStatus;
 }
 
 export async function getBotById(id: string): Promise<Bot | undefined> {
@@ -25,15 +38,13 @@ export async function deployBot(prevState: { error: string | undefined }, formDa
   if (!name || !token || !composeContent) {
     return { error: 'All fields are required.' };
   }
-
-  // MOCK: In a real app, you would:
-  // 1. Create a directory for the bot
-  // 2. Save the docker-compose.yml file
-  // 3. Create a .env file with the BOT_TOKEN
-  // 4. Run `docker-compose up -d`
-  console.log(`MOCK: Deploying bot "${name}"...`);
-
-  await botService.createBot({ name, token, composeContent });
+  
+  try {
+    const newBot = await botService.createBot({ name, token, composeContent });
+    await botService.startBot(newBot.id);
+  } catch (error: any) {
+    return { error: `Failed to deploy bot: ${error.message}` };
+  }
 
   revalidatePath('/');
   redirect('/');
@@ -55,16 +66,21 @@ export async function updateBot(prevState: { error: string | undefined }, formDa
         return { error: 'Bot not found.' };
     }
 
-    // MOCK: In a real app, you would:
-    // 1. Update the docker-compose.yml and .env files
-    // 2. Run `docker-compose up -d --force-recreate` to apply changes
-    console.log(`MOCK: Updating bot "${name}"...`);
+    try {
+      await botService.updateBot(id, {
+          name,
+          composeContent,
+          // If a new token is provided, use it. Otherwise, keep the old one.
+          token: token || undefined,
+      });
 
-    await botService.updateBot(id, {
-        name,
-        composeContent,
-        token: token || bot.token,
-    });
+      // Restart the bot to apply changes
+      await botService.startBot(id);
+
+    } catch (error: any) {
+      return { error: `Failed to update bot: ${error.message}` };
+    }
+
 
     revalidatePath('/');
     revalidatePath(`/bots/${id}/edit`);
@@ -72,33 +88,31 @@ export async function updateBot(prevState: { error: string | undefined }, formDa
 }
 
 export async function startBot(botId: string) {
-  const bot = await botService.getBotById(botId);
-  if (bot) {
-    // MOCK: Run `docker-compose start`
-    console.log(`MOCK: Starting bot "${bot.name}"...`);
-    await botService.updateBot(botId, { status: 'active' });
-    revalidatePath('/');
+  try {
+    await botService.startBot(botId);
+  } catch (error: any) {
+    console.error(`Failed to start bot ${botId}:`, error.message);
+    // Optionally, you could use a toast to show this error to the user
   }
+  revalidatePath('/');
 }
 
 export async function stopBot(botId: string) {
-  const bot = await botService.getBotById(botId);
-  if (bot) {
-    // MOCK: Run `docker-compose stop`
-    console.log(`MOCK: Stopping bot "${bot.name}"...`);
-    await botService.updateBot(botId, { status: 'inactive' });
-    revalidatePath('/');
+  try {
+    await botService.stopBot(botId);
+  } catch (error: any) {
+    console.error(`Failed to stop bot ${botId}:`, error.message);
   }
+  revalidatePath('/');
 }
 
 export async function deleteBot(botId: string) {
-  const bot = await botService.getBotById(botId);
-  if (bot) {
-    // MOCK: Run `docker-compose down -v` and delete files
-    console.log(`MOCK: Deleting bot "${bot.name}"...`);
+  try {
     await botService.deleteBot(botId);
-    revalidatePath('/');
+  } catch(error: any) {
+    console.error(`Failed to delete bot ${botId}:`, error.message);
   }
+  revalidatePath('/');
 }
 
 export async function getBotLogs(botId: string): Promise<string> {
@@ -106,33 +120,30 @@ export async function getBotLogs(botId: string): Promise<string> {
     if (!bot) {
         return "Bot not found.";
     }
-    // MOCK: In a real app, you would run `docker-compose logs` for the bot's service.
-    const now = new Date().toISOString();
-    return `
-[${now}] INFO: Starting bot ${bot.name}...
-[${now}] INFO: Bot connected to Telegram API.
-[${now}] DEBUG: Polling for new messages.
-[${new Date(Date.now() + 2000).toISOString()}] INFO: Received message: /start
-[${new Date(Date.now() + 2100).toISOString()}] INFO: Responding to /start command.
-[${new Date(Date.now() + 5000).toISOString()}] DEBUG: Polling for new messages.
-${bot.status === 'inactive' ? `[${new Date(Date.now() + 6000).toISOString()}] INFO: Bot is shutting down.` : ''}
-    `.trim();
+    
+    try {
+        return await botService.getBotLogs(botId);
+    } catch (error: any) {
+        return `Failed to retrieve logs: ${error.message}`;
+    }
 }
 
 
 export async function checkBotApiStatus(botId: string): Promise<{ success: boolean; message: string; }> {
-    const bot = await getBotById(botId);
+    const bot = await botService.getBotById(botId);
     if (!bot) {
         return { success: false, message: "Bot not found." };
     }
+    
+    const botsWithStatus = await getBotsWithStatus();
+    const currentBot = botsWithStatus.find(b => b.id === botId);
 
-    // MOCK: In a real app, this would make an HTTP request to a health check endpoint on the bot.
-    // We'll simulate a response based on the bot's container status.
-    if (bot.status !== 'active') {
+    if (currentBot?.status !== 'active') {
         return { success: false, message: `Bot "${bot.name}" is not active.` };
     }
     
-    // Simulate a random API failure for active bots
+    // This part remains a mock, as it depends on the specific bot's implementation.
+    // A real implementation would ping a health check endpoint on the bot's container.
     const isSuccess = Math.random() > 0.2; // 80% chance of success
     if (isSuccess) {
         return { success: true, message: `API for "${bot.name}" is responsive (200 OK).` };

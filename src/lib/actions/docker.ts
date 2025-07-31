@@ -1,25 +1,40 @@
 'use server';
 
-// This is a mocked function. In a real application, you would use
-// `child_process` to execute `docker info` and parse the output.
+import { exec } from 'child_process';
+import { promisify } from 'util';
+
+const execAsync = promisify(exec);
+
 export async function getDockerInfo() {
   try {
-    // MOCK: const { stdout } = await execAsync('docker info --format "{{json .}}"');
-    // MOCK: return JSON.parse(stdout);
-    await new Promise(resolve => setTimeout(resolve, 500)); // Simulate network delay
-    return {
-      ServerVersion: '25.0.3',
-      Containers: 12,
-      ContainersRunning: 8,
-      ContainersPaused: 0,
-      ContainersStopped: 4,
-      Images: 34,
-      OperatingSystem: 'Docker Desktop',
-      Architecture: 'aarch64',
-      Driver: 'overlay2'
-    };
+    // Get general Docker info
+    const { stdout: infoStdout } = await execAsync('docker info --format "{{json .}}"');
+    const dockerInfo = JSON.parse(infoStdout);
+
+    // Get container counts separately as `docker info` can be slow/unreliable for this on some systems
+    const { stdout: psStdout } = await execAsync('docker ps -a --format "{{.ID}}"');
+    const allContainers = psStdout.trim().split('\n').filter(Boolean);
+    const { stdout: runningPsStdout } = await execAsync('docker ps --format "{{.ID}}"');
+    const runningContainers = runningPsStdout.trim().split('\n').filter(Boolean);
+
+    dockerInfo.Containers = allContainers.length;
+    dockerInfo.ContainersRunning = runningContainers.length;
+    dockerInfo.ContainersStopped = allContainers.length - runningContainers.length;
+    
+    return dockerInfo;
   } catch (error) {
-    console.error('MOCK: Failed to get Docker info:', error);
-    return { error: 'Could not connect to Docker daemon.' };
+    console.error('Failed to get Docker info:', error);
+    return { error: 'Could not connect to Docker daemon. Is it running?' };
   }
+}
+
+export async function getRunningContainerIds(): Promise<string[]> {
+    try {
+        const { stdout } = await execAsync(`docker ps --format "{{.Names}}"`);
+        // Docker compose v2 uses `-` as a separator, v1 used `_`. We replace `_` with `-` for consistency.
+        return stdout.trim().split('\n').filter(Boolean).map(name => name.replace(/_/g, '-'));
+    } catch (error) {
+        console.error('Failed to get running container IDs:', error);
+        return [];
+    }
 }
