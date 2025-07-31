@@ -85,6 +85,26 @@ To build the application for production and then run it:
     npm run start
     ```
 
+#### Using Docker Compose
+
+For a more streamlined setup, you can use Docker Compose to build and run the application.
+This method is recommended as it handles dependencies and environment setup automatically.
+
+1.  **Build and run the application with Docker Compose:**
+    ```bash
+    docker compose up --build
+    ```
+    This command will:
+    *   Build the Docker image for the application.
+    *   Start the application container.
+    *   Mount the host's Docker socket into the container, allowing the application to manage bot containers.
+    *   Persist the application's data (`db.json`) in a `data/` directory on your host.
+
+2.  **Stop the application (optional):**
+    ```bash
+    docker compose down
+    ```
+
 ### Database Information
 
 The application uses `lowdb` for a simple file-based database. The database file `db.json` is located in the `data/` directory at the root of the project. This directory is ignored by Git.
