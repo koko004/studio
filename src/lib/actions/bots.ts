@@ -3,20 +3,20 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import * as botService from '@/lib/services/bot-service';
 import type { Bot } from '@/lib/types';
-import { getRunningContainerIds } from './docker';
+import { getRunningContainerNames } from './docker';
 
 
 // --- Server Actions ---
 
 export async function getBotsWithStatus(): Promise<Bot[]> {
   const bots = await botService.getBots();
-  const runningContainerIds = await getRunningContainerIds();
+  const runningContainerNames = await getRunningContainerNames();
   
   const botsWithStatus = bots.map(bot => {
     // The project name in docker-compose is derived from the directory name.
     const projectName = botService.getBotProjectName(bot.id);
     // We check if any running container's name starts with our project name.
-    const isRunning = runningContainerIds.some(id => id.startsWith(projectName));
+    const isRunning = runningContainerNames.some(name => name.startsWith(projectName));
     return {
       ...bot,
       status: isRunning ? 'active' : 'inactive'

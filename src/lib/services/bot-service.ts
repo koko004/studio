@@ -16,14 +16,14 @@ export function getBotDir(id: string) {
 
 export function getBotProjectName(id: string) {
     // Docker Compose uses the directory name for the project name, but with invalid characters removed.
-    // We'll mimic this by using the bot ID, which is a valid format.
+    // We'll mimic this by using a prefix and the bot ID's first 8 characters.
     return `bot-${id.substring(0,8)}`;
 }
 
 async function runComposeCommand(botId: string, command: string) {
     const botDir = getBotDir(botId);
     const projectName = getBotProjectName(botId);
-    // `-p` specifies the project name, ` --project-directory` specifies the path to the yml file
+    // -p specifies the project name, --project-directory specifies the path to the yml file
     const fullCommand = `docker-compose -p ${projectName} --project-directory ${botDir} ${command}`;
     try {
         const { stdout, stderr } = await execAsync(fullCommand);
@@ -109,22 +109,24 @@ export async function updateBot(id: string, botData: UpdateBotData): Promise<Bot
 
 export async function deleteBot(id: string): Promise<boolean> {
     let bots = await db.getBots();
-    const initialLength = bots.length;
     const botExists = bots.some((b) => b.id === id);
-
     if (!botExists) {
         return false;
     }
 
-    // Stop and remove containers, volumes, etc.
-    await runComposeCommand(id, 'down -v');
-
-    bots = bots.filter((b) => b.id !== id);
-    await db.writeBots(bots);
-
-    // Delete the bot's directory
     const botDir = getBotDir(id);
-    await fse.remove(botDir);
+    const botDirExists = await fse.pathExists(botDir);
+    
+    if (botDirExists) {
+      // Stop and remove containers, volumes, etc. only if the directory exists
+      await runComposeCommand(id, 'down -v');
+      // Delete the bot's directory
+      await fse.remove(botDir);
+    }
+
+    // Always filter the bot from the database file
+    const newBots = bots.filter((b) => b.id !== id);
+    await db.writeBots(newBots);
     
     return true;
 }

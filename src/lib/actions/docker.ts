@@ -28,13 +28,13 @@ export async function getDockerInfo() {
   }
 }
 
-export async function getRunningContainerIds(): Promise<string[]> {
+export async function getRunningContainerNames(): Promise<string[]> {
     try {
         const { stdout } = await execAsync(`docker ps --format "{{.Names}}"`);
         // Docker compose v2 uses `-` as a separator, v1 used `_`. We replace `_` with `-` for consistency.
         return stdout.trim().split('\n').filter(Boolean).map(name => name.replace(/_/g, '-'));
     } catch (error) {
-        console.error('Failed to get running container IDs:', error);
+        console.error('Failed to get running container names:', error);
         return [];
     }
 }
