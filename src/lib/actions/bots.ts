@@ -17,6 +17,7 @@ export async function getBotsWithStatus(): Promise<Bot[]> {
     const projectName = botService.getBotProjectName(bot.id);
     // We check if any running container's name starts with our project name.
     const isRunning = runningContainerNames.some(name => name.startsWith(projectName));
+    
     return {
       ...bot,
       status: isRunning ? 'active' : 'inactive'

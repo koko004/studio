@@ -31,7 +31,7 @@ export function BotCard({ bot }: { bot: Bot }) {
             action(bot.id);
         });
     };
-
+    
     const handleApiCheck = () => {
         startTransition(async () => {
             const result = await checkBotApiStatus(bot.id);
