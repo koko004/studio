@@ -1,9 +1,0 @@
-services:
-  wallbot:
-    image: z0r3f/wallbot-docker:latest
-    container_name: wallbot-z0r3f
-    volumes:
-      - /wallbot-z0r3f/db:/data 
-    environment:
-      - BOT_TOKEN=6839617734:AAFULVX3xsf1LgHOCKKjAOcen_RZ4Uj6PR4
-    restart: always
